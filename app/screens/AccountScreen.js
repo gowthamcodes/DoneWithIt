@@ -1,8 +1,7 @@
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import Icon from "../components/Icon";
-import ListItem from "../components/ListItem";
-import ListItemSeperator from "../components/ListItemSeperator";
+import { ListItem, ListItemSeperator } from "../components/lists";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 

@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-
-import AppPicker from "./app/components/AppPicker";
-import AppTextInput from "./app/components/AppTextInput";
+import React, { useEffect, useState } from "react";
+import * as ImagePicker from "expo-image-picker";
+import ImageInput from "./app/components/ImageInput";
 import Screen from "./app/components/Screen";
 
-const categories = [
-  { label: "Furniture", value: 1 },
-  { label: "Clothing", value: 2 },
-  { label: "Electronics", value: 3 },
-];
-
 export default function App() {
-  const [category, setCategory] = useState(categories[0]);
+  const [imageUri, setImageUri] = useState();
+
+  const requestPermission = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+    }
+  };
+
+  useEffect(() => {
+    requestPermission();
+  }, []);
 
   return (
     <Screen>
-      <AppPicker
-        selectedItem={category}
-        onSelectItem={(item) => setCategory(item)}
-        items={categories}
-        icon="apps"
-        placeholder="Category"
+      <ImageInput
+        onChangeImage={(uri) => setImageUri(uri)}
+        imageUri={imageUri}
       />
-      <AppTextInput icon="email" placeholder="Email" />
     </Screen>
   );
 }
