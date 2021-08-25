@@ -1,28 +1,34 @@
-import React, { useEffect, useState } from "react";
-import * as ImagePicker from "expo-image-picker";
-import ImageInput from "./app/components/ImageInput";
+import React from "react";
+import { Button, Text } from "react-native";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import Screen from "./app/components/Screen";
 
+const tweets = ({ navigation: { navigate } }) => (
+  <Screen>
+    <Text>Tweets</Text>
+    <Button title="Go to" onPress={() => navigate("TweetsDetails")} />
+  </Screen>
+);
+const tweetDetails = () => (
+  <Screen>
+    <Text>Tweet Details</Text>
+  </Screen>
+);
+
+const Stack = createStackNavigator();
+const StackNavigator = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Tweets" component={tweets} />
+    <Stack.Screen name="TweetsDetails" component={tweetDetails} />
+  </Stack.Navigator>
+);
+
 export default function App() {
-  const [imageUri, setImageUri] = useState();
-
-  const requestPermission = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== "granted") {
-      alert("Sorry, we need camera roll permissions to make this work!");
-    }
-  };
-
-  useEffect(() => {
-    requestPermission();
-  }, []);
-
   return (
-    <Screen>
-      <ImageInput
-        onChangeImage={(uri) => setImageUri(uri)}
-        imageUri={imageUri}
-      />
-    </Screen>
+    <NavigationContainer>
+      <StackNavigator />
+    </NavigationContainer>
   );
 }
