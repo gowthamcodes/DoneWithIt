@@ -2,7 +2,8 @@ import React from "react";
 import { Button, Text } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Screen from "./app/components/Screen";
 
 const Tweet = ({ navigation }) => (
@@ -24,21 +25,14 @@ const TweetDetails = ({ route }) => (
 );
 
 const Stack = createStackNavigator();
-const StackNavigator = () => (
+const FeedNavigator = () => (
   <Stack.Navigator
     screenOptions={{
-      headerStyle: { backgroundColor: "dodgerblue" },
+      headerStyle: { backgroundColor: "#8c7ae6" },
       headerTintColor: "white",
     }}
   >
-    <Stack.Screen
-      name="Tweet"
-      component={Tweet}
-      options={{
-        headerStyle: { backgroundColor: "tomato" },
-        headerTintColor: "white",
-      }}
-    />
+    <Stack.Screen name="Tweet" component={Tweet} />
     <Stack.Screen
       name="TweetDetails"
       component={TweetDetails}
@@ -47,10 +41,45 @@ const StackNavigator = () => (
   </Stack.Navigator>
 );
 
+const Account = () => (
+  <Screen>
+    <Text>Account Screen</Text>
+  </Screen>
+);
+
+const Tab = createBottomTabNavigator();
+const TabNavigator = () => (
+  <Tab.Navigator
+    tabBarOptions={{
+      activeTintColor: "tomato",
+      inactiveTintColor: "gray",
+    }}
+  >
+    <Tab.Screen
+      name="Feed"
+      component={FeedNavigator}
+      options={{
+        tabBarIcon: ({ size, color }) => (
+          <MaterialCommunityIcons name="home" size={size} color={color} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Account"
+      component={Account}
+      options={{
+        tabBarIcon: ({ size, color }) => (
+          <MaterialCommunityIcons name="account" size={size} color={color} />
+        ),
+      }}
+    />
+  </Tab.Navigator>
+);
+
 export default function App() {
   return (
     <NavigationContainer>
-      <StackNavigator />
+      <TabNavigator />
     </NavigationContainer>
   );
 }
