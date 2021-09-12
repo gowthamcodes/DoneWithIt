@@ -5,32 +5,45 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Screen from "./app/components/Screen";
 
-const Link = () => {
-  const navigation = useNavigation();
-  return (
-    <Button title="Link" onPress={() => navigation.navigate("TweetDetails")} />
-  );
-};
-
 const Tweet = ({ navigation }) => (
   <Screen>
     <Text>Tweet Screen</Text>
-    {/* <Button title="Click" onPress={() => navigation.navigate("TweetDetails")} /> */}
-    <Link />
+    <Button
+      title="Click"
+      onPress={() =>
+        navigation.navigate("TweetDetails", { id: 15, title: "Tweet Header" })
+      }
+    />
   </Screen>
 );
 
-const TweetDetails = () => (
+const TweetDetails = ({ route }) => (
   <Screen>
-    <Text>Tweet Details Screen</Text>
+    <Text>Tweet Details Screen: {route.params.id}</Text>
   </Screen>
 );
 
 const Stack = createStackNavigator();
 const StackNavigator = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Tweet" component={Tweet} />
-    <Stack.Screen name="TweetDetails" component={TweetDetails} />
+  <Stack.Navigator
+    screenOptions={{
+      headerStyle: { backgroundColor: "dodgerblue" },
+      headerTintColor: "white",
+    }}
+  >
+    <Stack.Screen
+      name="Tweet"
+      component={Tweet}
+      options={{
+        headerStyle: { backgroundColor: "tomato" },
+        headerTintColor: "white",
+      }}
+    />
+    <Stack.Screen
+      name="TweetDetails"
+      component={TweetDetails}
+      options={({ route }) => ({ title: route.params.title })}
+    />
   </Stack.Navigator>
 );
 
