@@ -6,7 +6,6 @@ import {
   ListItemDeleteAction,
   ListItemSeperator,
 } from "../components/lists";
-import Screen from "../components/Screen";
 
 const initialMessages = [
   {
@@ -44,7 +43,7 @@ function MessagesScreen() {
   );
 
   return (
-    <Screen>
+    <>
       <FlatList
         data={messages}
         keyExtractor={(message) => message.id.toString()}
@@ -62,7 +61,7 @@ function MessagesScreen() {
           ]);
         }}
       />
-    </Screen>
+    </>
   );
 }
 
