@@ -10,10 +10,10 @@ export default useApi = (ApiHandler) => {
     const response = await ApiHandler(...args);
     setLoading(false);
 
-    if (!response.ok) return setError(true);
-
-    setError(false);
+    setError(!response.ok);
     setData(response.data);
+
+    return response;
   };
 
   return { data, error, loading, request };
