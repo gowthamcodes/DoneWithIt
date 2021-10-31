@@ -26,6 +26,9 @@
     "web": {
       "favicon": "./app/assets/favicon.png"
     },
-    "description": "Market Place for selling the things"
+    "description": "Market Place for selling the things",
+    "notification": {
+      "iosDisplayInForeground": true
+    }
   }
 }

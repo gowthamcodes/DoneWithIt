@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View, RefreshControl } from "react-native";
 
 import Card from "../components/Card";
 import Screen from "../components/Screen";
@@ -12,11 +12,18 @@ import ActivityIndicator from "../components/ActivityIndicator";
 import useApi from "../hooks/useApi";
 
 function ListingScreen({ navigation }) {
+  const [refreshing, setRefreshing] = useState(false);
   const getListingsApi = useApi(listingApi.getListings);
 
   useEffect(() => {
     getListingsApi.request();
   }, []);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    getListingsApi.request();
+    setRefreshing(false);
+  };
 
   return (
     <>
@@ -30,6 +37,14 @@ function ListingScreen({ navigation }) {
         )}
         <FlatList
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              progressBackgroundColor={colors.primary}
+              colors={[colors.white]}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
           data={getListingsApi.data}
           keyExtractor={(listing) => listing.id.toString()}
           renderItem={({ item }) => (

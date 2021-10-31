@@ -1,16 +1,20 @@
 import React, { useContext } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import { ListItem } from "../components/lists";
 import AuthContext from "../auth/context";
+import ContactSellerForm from "../components/ContactSellerForm";
 
 function ListingDetailScreen({ route }) {
   const listing = route.params;
   const { user } = useContext(AuthContext);
   return (
-    <View>
+    <KeyboardAvoidingView
+      behavior={"position"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
+    >
       <Image
         style={styles.image}
         tint={"light"}
@@ -29,14 +33,18 @@ function ListingDetailScreen({ route }) {
             subTitle="5 Listings"
           />
         </View>
+        <View style={styles.contactContainer}>
+          <ContactSellerForm listing={listing} />
+        </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 10,
+    flex: 1,
   },
   image: {
     width: "100%",
@@ -54,6 +62,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     marginVertical: 10,
+  },
+  contactContainer: {
+    marginTop: 8,
   },
 });
 
